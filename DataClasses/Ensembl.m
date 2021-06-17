@@ -12,8 +12,8 @@ classdef Ensembl
     
     methods
         function obj = Ensembl(dataline)
-            %UNTITLED2 Construct an instance of this class
-            %   Detailed explanation goes here
+            %Ensembl constructor function
+            %  makes an instance from a line of the ensembl .chr file
             id = strfind(dataline,'gene_id');
             dataline = dataline(id:end);
             line_split = strsplit(strtrim(dataline),';');
