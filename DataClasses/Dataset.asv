@@ -1,5 +1,6 @@
 classdef Dataset
     %Dataset class to store one RNASeq experimnt
+    %   Detailed explanation goes here
     
     properties
         samples
@@ -21,28 +22,8 @@ classdef Dataset
                 datamatrix(:,ii) = obj.samples(ii).data;
             end
         end
-        
         function conds = getConditions(obj)
-            conds = {obj.samples.name};
-        end
-        
-        function getExpressionByName(obj,namestr)
-            gene_names = obj.samples(1).gene_names;
-            inds = find(contains(gene_names,namestr));
-            dat = obj.getDataMatrix;
-            nconds = size(dat,2);
-            
-            for ii = 1:length(inds)
-                fprintf('%s\t',gene_names{inds(ii)});
-                for jj = 1:nconds
-                    fprintf('%f\t',dat(ii,jj));
-                end
-                fprintf('\n');
-            end
-        end
-        %new comment
-        
-        
+            conds = {obj.samples.name
     end
 end
 
