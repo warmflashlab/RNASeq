@@ -31,7 +31,7 @@ classdef MappedSample
                 else
                     obj.data(ii) = 0;
                     obj.gene_ids{ii} = '';
-                    obj.gene_names{ii} = {};
+                    obj.gene_names{ii} = '';
                 end
             end
             
