@@ -1,13 +1,9 @@
-classdef MappedSample
+classdef MappedSample < Sample
     %MappedSample class to store one RNAseq sample with genes mapped to a
     %reference database
     
     properties
         referenceDatabase
-        data
-        gene_ids
-        gene_names
-        name
     end
     
     methods
