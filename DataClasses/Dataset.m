@@ -1,6 +1,5 @@
 classdef Dataset
     %Dataset class to store one RNASeq experimnt
-    %   Detailed explanation goes here
     
     properties
         samples
