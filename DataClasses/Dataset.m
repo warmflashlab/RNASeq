@@ -2,10 +2,10 @@ classdef Dataset
     %Dataset class to store one RNASeq experimnt
     
     properties
-        samples
-        referenceDatabase
-        conditionIds
-        conditionNames
+        samples % MappedSample objects in an array, one per sample
+        referenceDatabase % store link to the ref database
+        conditionIds % id numbers for conditions, keeps track of replicates
+        conditionNames %names of conditions, one entry per id. 
     end
     
     methods
@@ -34,8 +34,11 @@ classdef Dataset
             dm = obj.getDataMatrix;
             cIds = obj.conditionIds;
             uIds = sort(unique(cIds));
-            for ii = cIds
-                inds = cIds == cIds(
+            ngenes = size(dm,1);
+            avgdatamatrix = zeros(ngenes,length(uIds));
+            for ii = uIds
+                inds = cIds == uIds(ii);
+                avgdatamatrix(:,ii) = mean(dm(:,inds),2);
             end
             
         end
@@ -44,10 +47,19 @@ classdef Dataset
             conds = {obj.samples.name};
         end
         
-        function getExpressionByName(obj,namestr)
+        function getExpressionByName(obj,namestr,avgOverReplicates)
+            
+            if ~exist('avgOverReplicates','var')
+                avgOverReplicates = true;
+            end
+            
             gene_names = obj.samples(1).gene_names;
             inds = find(contains(gene_names,namestr));
-            dat = obj.getDataMatrix;
+            if avgOverReplicates
+                dat = obj.getAverageDataMatrix;
+            else
+                dat = obj.getDataMatrix;
+            end
             nconds = size(dat,2);
             
             for ii = 1:length(inds)
