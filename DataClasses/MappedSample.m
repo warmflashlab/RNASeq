@@ -3,7 +3,7 @@ classdef MappedSample < Sample
     %reference database
     
     properties
-        referenceDatabase
+        referenceDatabase %path to reference ensembl database
     end
     
     methods
@@ -33,11 +33,7 @@ classdef MappedSample < Sample
             
         end
         
-        %         function outputArg = method1(obj,inputArg)
-        %             %METHOD1 Summary of this method goes here
-        %             %   Detailed explanation goes here
-        %             outputArg = obj.Property1 + inputArg;
-        %         end
+   
     end
 end
 

@@ -1,4 +1,4 @@
-classdef Dataset
+classdef RNASeqData
     %Dataset class to store one RNASeq experimnt
     
     properties
@@ -9,7 +9,7 @@ classdef Dataset
     end
     
     methods
-        function obj = Dataset(samples,referenceDatabase,conditionIds,conditionNames)
+        function obj = RNASeqData(samples,referenceDatabase,conditionIds,conditionNames)
             % Construct a new object of Dataset class
             obj.samples = samples;
             if nargin > 1
@@ -46,7 +46,7 @@ classdef Dataset
         end
         
         function conds = getConditions(obj)
-            %returns the conditions of the samples. Will include all
+            %getConditions: returns the conditions of the samples. Will include all
             %replicates separately. For unique conditions, use property
             %conditionNames
             conds = {obj.samples.name};

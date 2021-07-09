@@ -1,16 +1,17 @@
 classdef Sample
     %Sample class to store a single RNASeq sample
     properties
-        data
-        gene_ids
-        gene_names
-        name
+        data %vector of data, 1 number per gene id
+        gene_ids % cell array of ensembl ids
+        gene_names % cell array of gene names
+        name % name of sample
     end
     
     methods
         function obj = Sample(name,data,gene_ids,gene_names)
-            %UNTITLED Construct an instance of this class
-            %   Detailed explanation goes here
+            %Sample construct an instance of dataset class
+            % can be called by providing input data or without argument to
+            % create an empty Sample object
             if nargin > 0
                 obj.name = name;
             else
@@ -34,16 +35,16 @@ classdef Sample
         end
         
         function geneExp = getExpressionByName(obj,namestr)
-            
+            %Returns expression of genes matching namestr. prints results.
             ids = find(contains(obj.gene_names,namestr));
+            geneExp = zeros(length(ids),1);
             for ii = 1:length(ids)
                 fprintf('%s\t',obj.gene_names{ids(ii)});
                 fprintf('%f\t',obj.data(ids(ii)));
                 geneExp(ii) = obj.data(ids(ii));
                 fprintf('\n');
             end
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
+       
             
         end
     end
