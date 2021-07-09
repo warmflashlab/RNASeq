@@ -14,3 +14,6 @@ RNASeqData.differentialExpression perform differential expression analysis acros
 ### data storage functions
 MappedSample - constructor maps the data from sample to an ensembl database
 Ensembl - constructor converts file downloaded from ensembl to an Ensembl object
+
+### Example scripts
+makeNewDatasetObjects - shows how to create an RNASeqData object from one experiment
