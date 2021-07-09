@@ -54,8 +54,8 @@ classdef RNASeqData
         
         function [outdata, geneNames]=getExpressionByName(obj,namestr,avgOverReplicates,onlyExact)
             % getExpressionByName: returns expression of a particular
-            % gene/genes by name. 
-            % optional arguments: 
+            % gene/genes by name.
+            % optional arguments:
             % avgOverReplicates - true to average over replicates (default
             % true)
             % onlyExact - true for only exact matches (default false)
@@ -88,8 +88,57 @@ classdef RNASeqData
                 end
                 fprintf('\n');
             end
-        end        
+        end
         
+        function [dat, names, ids] = differentialExpression(obj,condition_nums,fcThresh,expressionThresh,avgOverReplicates)
+            %differentialExpression: get differentially expressed genes
+            % arguments: 
+            %condition_nums - true element cell array containing sample numbers to compare. 
+            % each entry can be a vector of samples which will be averaged
+            % over
+            % fcThresh: threshold for fold change to be considered
+            % differential
+            % expressionData: threshold for expression, data value must be
+            % at least this high in higher sample
+            % avgOverReplicates - if true will average over replicates
+            if ~exist('avgOverReplicates','var')
+                avgOverReplicates = true;
+            end
+            
+            if avgOverReplicates
+                expression_data = obj.getAverageDataMatrix;
+                conditions = obj.conditionNames;
+            else
+                expression_data = obj.getDataMatrix;
+                conditions = obj.getConditions;
+            end
+            
+            gene_names = obj.samples(1).gene_names;
+            gene_ids = obj.samples(1).gene_ids;
+            
+            d1 = mean(expression_data(:,condition_nums{1}),2);
+            d2 = mean(expression_data(:,condition_nums{2}),2);
+            
+            fc = d1./d2;
+            
+            nconds = length(conditions);
+            goodones = find(fc > fcThresh & d1 > expressionThresh);
+            fc = fc(goodones);
+            [~,inds] = sort(fc);
+            goodones = goodones(inds);
+            dat = expression_data(goodones,:);
+            names = gene_names(goodones);
+            ids = gene_ids(goodones);  
+            
+            for ii = 1:length(names)
+                fprintf('%s\t',names{ii});
+                for jj = 1:nconds
+                    fprintf('%f\t',dat(ii,jj));
+                end
+                fprintf('\n');
+            end
+            
+        end
     end
 end
 
