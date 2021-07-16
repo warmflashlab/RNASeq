@@ -11,14 +11,26 @@ classdef RNASeqData
     methods
         function obj = RNASeqData(samples,referenceDatabase,conditionIds,conditionNames)
             % Construct a new object of Dataset class
-            obj.samples = samples;
+            if nargin > 0
+                obj.samples = samples;
+            else
+                obj.samples =[];
+            end
             if nargin > 1
                 obj.referenceDatabase = referenceDatabase;
             else
                 obj.referenceDatabase = '';
             end
-            obj.conditionIds = conditionIds;
-            obj.conditionNames = conditionNames;
+            if nargin > 2
+                obj.conditionIds = conditionIds;
+            else
+                obj.conditionIds =[];
+            end
+            if nargin > 3
+                obj.conditionNames = conditionNames;
+            else
+                obj.conditionNames = {};
+            end
         end
         
         function datamatrix = getDataMatrix(obj)
@@ -92,8 +104,8 @@ classdef RNASeqData
         
         function [dat, names, ids] = differentialExpression(obj,condition_nums,fcThresh,expressionThresh,avgOverReplicates)
             %differentialExpression: get differentially expressed genes
-            % arguments: 
-            %condition_nums - true element cell array containing sample numbers to compare. 
+            % arguments:
+            %condition_nums - true element cell array containing sample numbers to compare.
             % each entry can be a vector of samples which will be averaged
             % over
             % fcThresh: threshold for fold change to be considered
@@ -128,7 +140,7 @@ classdef RNASeqData
             goodones = goodones(inds);
             dat = expression_data(goodones,:);
             names = gene_names(goodones);
-            ids = gene_ids(goodones);  
+            ids = gene_ids(goodones);
             
             for ii = 1:length(names)
                 fprintf('%s\t',names{ii});
