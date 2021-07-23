@@ -9,25 +9,28 @@ classdef RNASeqData
     end
     
     methods
-        function obj = RNASeqData(samples,referenceDatabase,conditionIds,conditionNames)
+        function obj = RNASeqData(varargin)
             % Construct a new object of Dataset class
-            if nargin > 0
-                obj.samples = samples;
+            
+            inputs = varargin2parameter(varargin);
+            
+            if isfield(inputs,'samples')
+                obj.samples = inputs.samples;
             else
                 obj.samples =[];
             end
-            if nargin > 1
-                obj.referenceDatabase = referenceDatabase;
+            if isfield(inputs,'referenceDatabase')
+                obj.referenceDatabase = inputs.referenceDatabase;
             else
                 obj.referenceDatabase = '';
             end
-            if nargin > 2
-                obj.conditionIds = conditionIds;
+            if isfield(inputs,'conditionIds')
+                obj.conditionIds = inputs.conditionIds;
             else
                 obj.conditionIds =[];
             end
-            if nargin > 3
-                obj.conditionNames = conditionNames;
+            if isfield(inputs,'conditionNames')
+                obj.conditionNames = inputs.conditionNames;
             else
                 obj.conditionNames = {};
             end
